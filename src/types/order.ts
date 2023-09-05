@@ -1,3 +1,5 @@
+import { OrderCourierType, OrderStatus, OrderType } from '@/enums';
+
 export type Order = {
   id: number;
   uuid: string;
@@ -10,15 +12,15 @@ export type Order = {
     name: string;
     url: string;
   };
-  type: 'print' | 'stl';
+  type: keyof typeof OrderType;
   note: string | null;
-  status: 'pending' | 'complete';
+  status: keyof typeof OrderStatus;
   price: number | null;
   receipt: null | {
     name: string;
     url: string;
   };
-  courier_type: null | 'jnt' | 'gosend';
+  courier_type: null | keyof typeof OrderCourierType;
   courier_gosend_price: null | number;
   courier_jnt_price: null | number;
   courier_track_number: null | string;
