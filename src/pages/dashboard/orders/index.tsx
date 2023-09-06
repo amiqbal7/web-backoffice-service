@@ -5,11 +5,17 @@ import { DataTable } from '@/components';
 import type { Order, User } from '@/types';
 import moment from 'moment';
 import qs from 'qs';
+import { currencyFormatIDR } from '@/utils';
+import { Button } from 'antd';
 
 type DataType = Order & {
   user: User;
   created_at: string;
   updated_at: string;
+  gender: string;
+  date: string;
+  height: number;
+  progress: string;
 };
 
 export function Component() {
@@ -24,7 +30,9 @@ export function Component() {
       total: number;
       per_page: number;
       current_page: number;
+
     },
+
   }>({
     url: '/orders',
     method: 'GET',
@@ -33,6 +41,7 @@ export function Component() {
     },
     params,
   }, { manual: false });
+  console.log('Data from API:', data);
   const columns: ColumnsType<DataType> = [
     {
       title: 'No',
@@ -41,60 +50,47 @@ export function Component() {
       width: 50,
     },
     {
-      title: 'Nama',
+      title: 'Nama Perusahaan',
       dataIndex: 'name',
       key: 'name',
+      render: (_, { company }) => company ? company : '-',
     },
     {
-      title: 'Nomor telepon',
-      dataIndex: 'phone',
-      key: 'name',
-      render: (_, { phone }) => phone ? phone : '-',
+      title: 'UUID',
+      dataIndex: 'uuid',
+      key: 'uuid',
+      render: (_, { uuid }) => uuid ? uuid : '-',
     },
     {
-      title: 'Jenis Kelamin',
-      dataIndex: 'gender',
-      key: 'gender',
-      render: (_, { gender }) => {
-        switch (gender) {
-          case 'male':
-            return 'Laki - Laki';
-          case 'female':
-            return 'Perempuan';
-          default:
-            return '-';
-        }
-      },
-      filters: [
-        {
-          text: 'Laki - Laki',
-          value: 'male',
-        },
-        {
-          text: 'Perempuan',
-          value: 'female',
-        },
-      ]
-    },
-    {
-      key: 'height',
-      title: 'Tinggi Badan',
-      dataIndex: 'height',
-      render: (_, { height }) => height ? `${height} cm` : '-',
-    },
-    {
-      key: 'age',
-      title: 'Umur',
-      dataIndex: 'age',
-      render: (_, { age }) => age ? `${age} tahun` : '-',
-    },
-    {
-      key: 'created_at',
-      title: 'Tanggal Register',
-      dataIndex: 'created_at',
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
       render: (_, { created_at }) => moment(created_at).format('YYYY-MM-DD HH:mm:ss'),
-      sorter: true,
     },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
+      render: (_, { type }) => type ? type : '-',
+    },
+    {
+      key: 'price',
+      title: 'Total Harga',
+      render: (row) => (row.price ? currencyFormatIDR(row.price) : '-'),
+    },
+    {
+      key: 'progress',
+      title: 'Progress',
+      dataIndex: 'progress',
+      render: (_, { status }) => status ? `${status}` : '-',
+    },
+    {
+      key: 'action',
+      title: 'Action',
+      dataIndex: 'action',
+      render: () => <Button type='primary'>Detail</Button>,
+    },
+
   ];
 
   return (
