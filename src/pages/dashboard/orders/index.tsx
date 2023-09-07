@@ -12,10 +12,6 @@ type DataType = Order & {
   user: User;
   created_at: string;
   updated_at: string;
-  gender: string;
-  date: string;
-  height: number;
-  progress: string;
 };
 
 export function Component() {
@@ -41,7 +37,6 @@ export function Component() {
     },
     params,
   }, { manual: false });
-  console.log('Data from API:', data);
   const columns: ColumnsType<DataType> = [
     {
       title: 'No',
