@@ -90,7 +90,7 @@ export function useLogout() {
   const { token, setToken, setUser } = useAuth();
 
   const logout = async () => {
-    await execute({
+    execute({
       headers: {
         Authorization: `Bearer ${token}`
       }

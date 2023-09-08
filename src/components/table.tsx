@@ -40,8 +40,10 @@ export function DataTable<DataType extends object>({
   expandable,
 }: DataTableProps<DataType>) {
   const params = qs.parse(searchParams.toString());
-  const startDate = String(params.startDate ?? moment().startOf('month').format('YYYY-MM-DD'));
-  const endDate = String(params.endDate ?? moment().endOf('month').format('YYYY-MM-DD'));
+  const dateRange: [moment.Moment | null, moment.Moment | null] = [
+    params.startDate ? moment(String(params.startDate)) : null,
+    params.startDate ? moment(String(params.endDate)) : null
+  ];
   function onChange(
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
@@ -84,7 +86,7 @@ export function DataTable<DataType extends object>({
         <div>
           <DatePicker.RangePicker
             allowClear={false}
-            value={[moment(startDate), moment(endDate)]}
+            value={dateRange}
             onChange={(val) => {
               if (val) {
                 params.startDate = val[0]?.format('YYYY-MM-DD');
