@@ -3,7 +3,6 @@ import type { ColumnsType } from 'antd/es/table';
 import { useApi, useAuth } from '@/hooks';
 import { DataTable } from '@/components';
 import type { Vendor } from '@/types';
-import moment from 'moment';
 import qs from 'qs';
 
 type DataType = Vendor & {
@@ -43,6 +42,7 @@ export function Component() {
       title: 'Nama',
       dataIndex: 'name',
       key: 'name',
+      render: (_, { name }) => name ? name : '-',
     },
     {
       title: 'Nomor telepon',
@@ -51,48 +51,21 @@ export function Component() {
       render: (_, { phone }) => phone ? phone : '-',
     },
     {
-      title: 'Jenis Kelamin',
-      dataIndex: 'gender',
-      key: 'gender',
-      render: (_, { gender }) => {
-        switch (gender) {
-          case 'male':
-            return 'Laki - Laki';
-          case 'female':
-            return 'Perempuan';
-          default:
-            return '-';
-        }
-      },
-      filters: [
-        {
-          text: 'Laki - Laki',
-          value: 'male',
-        },
-        {
-          text: 'Perempuan',
-          value: 'female',
-        },
-      ]
+      key: 'email',
+      title: 'Email',
+      dataIndex: 'email',
+      render: (_, { email }) => email ? email : '-',
     },
     {
-      key: 'height',
-      title: 'Tinggi Badan',
-      dataIndex: 'height',
-      render: (_, { height }) => height ? `${height} cm` : '-',
+      key: 'description',
+      title: 'Description',
+      dataIndex: 'description',
+      render: (_, { description }) => description ? description : '-',
     },
     {
-      key: 'age',
-      title: 'Umur',
-      dataIndex: 'age',
-      render: (_, { age }) => age ? `${age} tahun` : '-',
-    },
-    {
-      key: 'created_at',
-      title: 'Tanggal Register',
-      dataIndex: 'created_at',
-      render: (_, { created_at }) => moment(created_at).format('YYYY-MM-DD HH:mm:ss'),
-      sorter: true,
+      key: 'action',
+      title: 'Action',
+      dataIndex: 'action',
     },
   ];
 
