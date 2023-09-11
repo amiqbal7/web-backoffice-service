@@ -3,7 +3,6 @@ import type { ColumnsType } from 'antd/es/table';
 import { useApi, useAuth } from '@/hooks';
 import { DataTable } from '@/components';
 import type { Admin } from '@/types';
-import moment from 'moment';
 import qs from 'qs';
 
 type DataType = Admin & {
@@ -23,20 +22,23 @@ export function Component() {
       total: number;
       per_page: number;
       current_page: number;
+    };
+  }>(
+    {
+      url: '/admins',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
     },
-  }>({
-    url: '/admins',
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    params,
-  }, { manual: false });
+    { manual: false }
+  );
   const columns: ColumnsType<DataType> = [
     {
       title: 'No',
       key: 'id',
-      render: (_row, _data, i) => (limit * (page-1))+(i+1),
+      render: (_row, _data, i) => limit * (page - 1) + (i + 1),
       width: 50,
     },
     {
@@ -47,60 +49,33 @@ export function Component() {
     {
       title: 'Nomor telepon',
       dataIndex: 'phone',
-      key: 'name',
-      render: (_, { phone }) => phone ? phone : '-',
+      key: 'phone',
+      render: (_, { phone }) => (phone ? phone : '-'),
     },
     {
-      title: 'Jenis Kelamin',
-      dataIndex: 'gender',
-      key: 'gender',
-      render: (_, { gender }) => {
-        switch (gender) {
-          case 'male':
-            return 'Laki - Laki';
-          case 'female':
-            return 'Perempuan';
-          default:
-            return '-';
-        }
-      },
-      filters: [
-        {
-          text: 'Laki - Laki',
-          value: 'male',
-        },
-        {
-          text: 'Perempuan',
-          value: 'female',
-        },
-      ]
+      key: 'email',
+      title: 'Email',
+      dataIndex: 'email',
+      render: (_, { email }) => (email ? email : '-'),
     },
     {
-      key: 'height',
-      title: 'Tinggi Badan',
-      dataIndex: 'height',
-      render: (_, { height }) => height ? `${height} cm` : '-',
+      key: 'jobdesk',
+      title: 'Jobdesk',
+      dataIndex: 'jobdesk',
+      render: (_, { role }) => (role ? role : '-'),
     },
     {
-      key: 'age',
-      title: 'Umur',
-      dataIndex: 'age',
-      render: (_, { age }) => age ? `${age} tahun` : '-',
-    },
-    {
-      key: 'created_at',
-      title: 'Tanggal Register',
-      dataIndex: 'created_at',
-      render: (_, { created_at }) => moment(created_at).format('YYYY-MM-DD HH:mm:ss'),
-      sorter: true,
+      key: 'action',
+      title: 'Action',
+      dataIndex: 'action',
     },
   ];
 
   return (
     <DataTable<DataType>
-      title='Admins'
-      subtitle='Manage all your existing admins or add a new one'
-      rowKey='id'
+      title="Admins"
+      subtitle="Manage all your existing admins or add a new one"
+      rowKey="id"
       columns={columns}
       data={data?.data ?? []}
       loading={loading}
