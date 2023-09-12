@@ -1,18 +1,18 @@
-import { Card, Col, Row, Statistic, Typography } from "antd";
-import { useAuth, useApi } from "@/hooks";
-import CountUp from "react-countup";
-import { PageLoading } from "@/components";
-import { Navigate, useSearchParams } from "react-router-dom";
-import { Summary } from "@/types/summary";
+import { Card, Col, Row, Statistic, Typography } from 'antd';
+import { useAuth, useApi } from '@/hooks';
+import CountUp from 'react-countup';
+import { PageLoading } from '@/components';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { Summary } from '@/types/summary';
 import {
   AiFillBuild,
   AiFillCheckCircle,
   AiFillClockCircle,
   AiFillHdd,
   AiFillProfile,
-} from "react-icons/ai";
-import { FaTruckMoving } from "react-icons/fa";
-import qs from "qs";
+} from 'react-icons/ai';
+import { FaTruckMoving } from 'react-icons/fa';
+import qs from 'qs';
 
 type DataType = Summary & {
   summary: Summary;
@@ -20,7 +20,7 @@ type DataType = Summary & {
 
 const formatter = (value: number | string) => (
   <CountUp
-    end={typeof value === "string" ? parseFloat(value) : value}
+    end={typeof value === 'string' ? parseFloat(value) : value}
     separator=","
   />
 );
@@ -31,8 +31,8 @@ export function Component() {
   const params = qs.parse(searchParams.toString());
   const [{ data, loading }] = useApi<DataType>(
     {
-      url: "/orders/summary",
-      method: "GET",
+      url: '/orders/summary',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -49,51 +49,51 @@ export function Component() {
 
   const statisticsData = [
     {
-      title: "Total",
+      title: 'Total',
       prefix: <AiFillHdd />,
-      color: "#60A5FA",
-      text: "white",
-      icon: "white",
+      color: '#60A5FA',
+      text: 'white',
+      icon: 'white',
       dataValue: data.total,
     },
     {
-      title: "Konfirmasi Pesanan",
+      title: 'Konfirmasi Pesanan',
       prefix: <AiFillCheckCircle />,
-      color: "white",
-      icon: "#60A5FA",
-      text: "#495252",
+      color: 'white',
+      icon: '#60A5FA',
+      text: '#495252',
       dataValue: data.confirm,
     },
     {
-      title: "Menunggu Pembayaran",
+      title: 'Menunggu Pembayaran',
       prefix: <AiFillClockCircle />,
-      color: "white",
-      icon: "#60A5FA",
-      text: "#495252",
+      color: 'white',
+      icon: '#60A5FA',
+      text: '#495252',
       dataValue: data.receipt,
     },
     {
-      title: "Proses Pembuatan",
+      title: 'Proses Pembuatan',
       prefix: <AiFillBuild />,
-      color: "white",
-      icon: "#60A5FA",
-      text: "#495252",
+      color: 'white',
+      icon: '#60A5FA',
+      text: '#495252',
       dataValue: data.build,
     },
     {
-      title: "Pengiriman",
+      title: 'Pengiriman',
       prefix: <FaTruckMoving />,
-      color: "white",
-      icon: "#60A5FA",
-      text: "#495252",
+      color: 'white',
+      icon: '#60A5FA',
+      text: '#495252',
       dataValue: data.delivery,
     },
     {
-      title: "Review",
+      title: 'Review',
       prefix: <AiFillProfile />,
-      icon: "#60A5FA",
-      color: "white",
-      text: "#495252",
+      icon: '#60A5FA',
+      color: 'white',
+      text: '#495252',
       dataValue: data.review,
     },
   ];
@@ -108,12 +108,12 @@ export function Component() {
           md={8}
           lg={6}
           xl={4}
-          style={{ marginBottom: "20px" }}
+          style={{ marginBottom: '20px' }}
           key={index}
         >
-          <Card style={{ backgroundColor: statistic.color, height: "210px" }}>
+          <Card style={{ backgroundColor: statistic.color, height: '210px' }}>
             <Statistic
-              style={{ marginTop: "10px", marginBottom: "10px" }}
+              style={{ marginTop: '10px', marginBottom: '10px' }}
               title={
                 <Typography.Title level={3} style={{ color: statistic.text }}>
                   {statistic.title}
@@ -133,9 +133,9 @@ export function Component() {
               }
               valueStyle={{
                 color: statistic.text,
-                fontWeight: "bold",
-                fontSize: "40px",
-                marginBottom: "10px",
+                fontWeight: 'bold',
+                fontSize: '40px',
+                marginBottom: '10px',
               }}
               formatter={formatter}
             />
