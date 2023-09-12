@@ -3,7 +3,6 @@ import { useAuth, useApi } from '@/hooks';
 import CountUp from 'react-countup';
 import { PageLoading } from '@/components';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { Summary } from '@/types/summary';
 import {
   AiFillBuild,
   AiFillCheckCircle,
@@ -14,10 +13,14 @@ import {
 import { FaTruckMoving } from 'react-icons/fa';
 import qs from 'qs';
 
-type DataType = Summary & {
-  summary: Summary;
+export type DataType = {
+  build: number;
+  confirm: number;
+  review: number;
+  total: number;
+  delivery: number;
+  receipt: number;
 };
-
 const formatter = (value: number | string) => (
   <CountUp
     end={typeof value === 'string' ? parseFloat(value) : value}
