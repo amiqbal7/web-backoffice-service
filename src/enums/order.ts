@@ -18,3 +18,10 @@ export enum OrderCourierType {
   jnt = 'J&T Express',
   gosend = 'Go Send'
 }
+
+export enum UsersGender {
+  male = 'Male',
+  female= 'Female'
+}
+
+

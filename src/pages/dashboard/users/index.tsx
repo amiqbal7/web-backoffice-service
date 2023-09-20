@@ -4,6 +4,7 @@ import { useApi, useAuth } from '@/hooks';
 import { DataTable } from '@/components';
 import type { User } from '@/types';
 import qs from 'qs';
+import { UsersGender } from '@/enums';
 
 type DataType = User & {
   created_at: string;
@@ -68,8 +69,7 @@ export function Component() {
     {
       key: 'gender',
       title: 'Gender',
-      dataIndex: 'gender',
-      render: (_, { gender }) => (gender ? gender : '-'),
+      render: (_, { gender }) => UsersGender[gender],
     },
     {
       key: 'company',

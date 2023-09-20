@@ -118,7 +118,7 @@ export function Component() {
             <Statistic
               style={{ marginTop: '10px', marginBottom: '10px' }}
               title={
-                <Typography.Title level={3} style={{ color: statistic.text }}>
+                <Typography.Title level={5} style={{ color: statistic.text }}>
                   {statistic.title}
                 </Typography.Title>
               }
