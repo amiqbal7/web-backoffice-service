@@ -28,7 +28,7 @@ export const ProgressBar = () => {
 
   const decline = () => {
     setPercent((prevPercent) => {
-      const newPercent = prevPercent - 25;
+      const newPercent = prevPercent - 21;
       if (newPercent < 0) {
         setCurrentStep(0);
         return 0;
