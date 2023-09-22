@@ -6,7 +6,7 @@ import { Order } from '@/types';
 import { Card } from 'antd';
 import qs from 'qs';
 import { ProgressBar } from '@/components/progress';
-import { OrderCourierType } from '@/enums';
+import { OrderCourierType, OrderType } from '@/enums';
 
 type DataType = Order & {
   created_at: string;
@@ -39,7 +39,9 @@ export function Component() {
   return (
     <>
       <section className="bg-white p-2 shadow-md rounded-md">
-        <h1 className='m-2 font-semibold text-xl'>Detail Order #E3D-0000{data.id}</h1>
+        <h1 className="m-2 font-semibold text-xl">
+          Detail Order #E3D-0000{data.id}
+        </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
           <Card title="User" style={{ background: '#E1EDFD', height: 450 }}>
             <div className="flex gap-3 w-full">
@@ -83,7 +85,9 @@ export function Component() {
                   {data.stl?.url || '-'}
                 </h1>
                 <h1 className="bg-white p-2 border-gray-300 border rounded-lg text-gray-600 truncate">
-                  {data.type || '-'}
+                  {data.type && OrderType[data.type]
+                    ? OrderType[data.type]
+                    : '-'}
                 </h1>
                 <h1 className="bg-white p-2 border-gray-300 border rounded-lg text-gray-600 truncate">
                   {data.note || '-'}

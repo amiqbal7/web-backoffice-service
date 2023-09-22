@@ -19,9 +19,6 @@ export enum OrderCourierType {
   gosend = 'Go Send'
 }
 
-export enum UsersGender {
-  male = 'Male',
-  female= 'Female'
-}
+
 
 
