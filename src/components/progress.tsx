@@ -49,13 +49,12 @@ export const ProgressBar = () => {
     let newPercent = percent;
 
     if (status === 'cancel') {
-      newPercent += 0;
-      setCurrentStep(currentStep +0);
+      setCurrentStep(currentStep - 1);
     } else if (status === 'pending') {
-      newPercent += 4;
-      setCurrentStep(currentStep + 1);
+      newPercent += 2;
+      setCurrentStep(currentStep + 0);
     } else if (status === 'confirm') {
-      newPercent += 7;
+      newPercent += 6;
       setCurrentStep(currentStep + 0.5);
     } else if (status === 'receipt') {
       setCurrentStep(currentStep + 0.5);
@@ -81,8 +80,6 @@ export const ProgressBar = () => {
   } else if (!data) {
     return <Navigate to="/dashboard/orders" />;
   }
-
-
 
   return (
     <>
