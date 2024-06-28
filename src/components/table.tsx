@@ -16,7 +16,7 @@ type DataTableProps<DataType> = {
   pagination: {
     page: number;
     pageSize: number;
-    total: number;
+    // total: number;
   }
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
@@ -110,10 +110,10 @@ export function DataTable<DataType extends object>({
           pagination={{
             current: pagination.page,
             pageSize: pagination.pageSize,
-            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-            pageSizeOptions: [5, 10, 20, 30, 50, 100],
-            showSizeChanger: true,
-            total: pagination.total,
+            // showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            // pageSizeOptions: [5, 10, 20, 30, 50, 100],
+            // showSizeChanger: true,
+            // total: pagination.total,
           }}
           scroll={{ x: '100%', y: '100%' }}
           summary={summary}

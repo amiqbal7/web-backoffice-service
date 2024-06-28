@@ -4,11 +4,12 @@ import { useApi, useAuth } from '@/hooks';
 import { DataTable } from '@/components';
 import type { User } from '@/types';
 import qs from 'qs';
-import { UserGender } from '@/enums';
 
 type DataType = User & {
   created_at: string;
   updated_at: string;
+  role: string;
+  username: string;
 };
 
 export function Component() {
@@ -17,6 +18,7 @@ export function Component() {
   const params = qs.parse(searchParams.toString());
   const limit = Number(params.limit ?? 10);
   const page = Number(params.page ?? 1);
+
   const [{ data, loading }] = useApi<{
     data: DataType[];
     meta: {
@@ -26,7 +28,7 @@ export function Component() {
     };
   }>(
     {
-      url: '/users',
+      url: '/users/list',
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -35,6 +37,8 @@ export function Component() {
     },
     { manual: false }
   );
+  console.log(data);
+
   const columns: ColumnsType<DataType> = [
     {
       title: 'No',
@@ -44,39 +48,22 @@ export function Component() {
     },
     {
       title: 'Nama',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'username',
+      key: 'username',
+      render: (_, { username }) => (username ? username : '-'),
     },
     {
-      title: 'Nomor telepon',
-      dataIndex: 'phone',
-      key: 'name',
-      render: (_, { phone }) => (phone ? phone : '-'),
-    },
-
-    {
-      key: 'address',
-      title: 'Address',
-      dataIndex: 'address',
-      render: (_, { address }) => (address ? address : '-'),
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
+      render: (_, { role }) => (role ? role : '-'),
     },
     {
-      key: 'email',
-      title: 'Email',
-      dataIndex: 'email',
-      render: (_, { email }) => (email ? email : '-'),
-    },
-    {
-      key: 'gender',
-      title: 'Gender',
-      render: (_, { gender }) => UserGender[gender],
-    },
-    {
-      key: 'company',
-      title: 'Company',
-      dataIndex: 'company',
-      render: (_, { company }) => (company ? company : '-'),
-    },
+      title: 'Created At',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (_, { created_at }) => (created_at ? created_at : '-'),
+    }
   ];
 
   return (
@@ -90,7 +77,6 @@ export function Component() {
       pagination={{
         page: page,
         pageSize: limit,
-        total: data?.meta.total ?? 0,
       }}
       searchParams={searchParams}
       setSearchParams={setSearchParams}

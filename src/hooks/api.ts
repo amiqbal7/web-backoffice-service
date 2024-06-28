@@ -2,7 +2,10 @@ import axios from 'axios';
 import { makeUseAxios } from 'axios-hooks';
 
 const http = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export const useApi = makeUseAxios({
@@ -10,8 +13,6 @@ export const useApi = makeUseAxios({
   defaultOptions: {
     manual: true,
     useCache: false,
-    autoCancel: false
-  }
+    autoCancel: false,
+  },
 });
-
-

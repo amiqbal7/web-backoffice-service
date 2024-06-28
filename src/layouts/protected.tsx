@@ -1,14 +1,38 @@
 import { Link, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Avatar, Button, Dropdown, Layout, Spin } from 'antd';
 import { MdDashboard, MdLogout, MdPerson } from 'react-icons/md';
-import { useAuth, useLogout } from '@/hooks';
-import logo from '@/assets/logo.png';
+import { useApi, useAuth, useLogout } from '@/hooks';
+import logo from '@/assets/binar.png';
+import { User } from '@/types';
+
+type DataType = User & {
+  created_at: string;
+  updated_at: string;
+  price: number;
+  availability: boolean;
+  startRent: string;
+  finishRent: string;
+  username: string;
+  capacity: number;
+};
 
 export function Component() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, token } = useAuth();
   const { logout, loading } = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
+  const [{ data }] = useApi<{
+    data: DataType;
+  }>(
+    {
+      url: '/users/auth/whoami',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    { manual: false }
+  );
 
   if (!isAuthenticated()) {
     return <Navigate to="/login" state={{ from: location }} replace />;
@@ -21,7 +45,7 @@ export function Component() {
       >
         <Link to='/' className="flex items-center !text-inherit">
           <img src={logo} className="h-6 mr-2" alt="Logo" />
-          <h1 className="text-lg font-semibold">
+          <h1 className="text-lg font-bold">
             {import.meta.env.VITE_APP_TITLE}
           </h1>
         </Link>
@@ -66,7 +90,7 @@ export function Component() {
                 icon={<MdPerson />}
               />
               <span className='ml-2'>
-                {user?.name}
+                {data?.data?.username ?? 'User'}
               </span>
             </Button>
           </Dropdown>

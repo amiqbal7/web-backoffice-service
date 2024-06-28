@@ -7,12 +7,11 @@ type Token = string | null;
 type User = {
   id: number;
   avatar: null | {
-    name: string;
+    username: string;
     url: string;
   }
-  name: string;
+  username: string;
   email: string;
-  phone: string | null;
   role: null;
 } | null;
 
@@ -55,11 +54,11 @@ export const useAuth = create<Auth>()(
 
 export function useLogin() {
   const [{ loading: loginLoading, error }, execute] = useApi({
-    url: '/auth/login',
+    url: 'users/auth/login',
     method: 'post'
   });
   const [{ loading: getProfileInfoLoading }, getProfileInfo] = useApi({
-    url: '/profile/info',
+    url: 'users/auth/whoami',
     method: 'get'
   });
   const { setToken, setUser } = useAuth();

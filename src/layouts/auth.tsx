@@ -1,7 +1,6 @@
 import { Outlet, Navigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks';
-import logo from '@/assets/logo.png';
-import logoWidya from '@/assets/logo.widya.png';
+import logo from '@/assets/binar.png';
 import { Card } from 'antd';
 
 
@@ -33,7 +32,7 @@ export function Component() {
         <div className="py-4 flex items-center justify-center gap-2 flex-none">
           <span className="text-sm text-gray-600">Made with love by</span>
           <a href="https://widyaimersif.com/" target="_blank" rel="noreferrer">
-            <img src={logoWidya} alt="Widya Imersif Teknologi" className="h-6" />
+            <img src={logo} alt="Widya Imersif Teknologi" className="h-6" />
           </a>
         </div>
       </div>

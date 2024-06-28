@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import { MdCorporateFare, MdDashboard, MdManageAccounts, MdOutlineListAlt, MdSupervisorAccount } from 'react-icons/md';
+import { MdDashboard, MdManageAccounts, MdOutlineListAlt, MdSupervisorAccount } from 'react-icons/md';
 import lodash from 'lodash';
 
 interface MenuItem {
@@ -21,19 +21,19 @@ export function Component() {
       label: 'Ringkasan',
     },
     {
-      key: '/dashboard/admins',
-      icon: <MdManageAccounts />,
-      label: 'Admins',
-    },
-    {
-      key: '/dashboard/vendors',
-      icon: <MdCorporateFare />,
-      label: 'Vendors',
-    },
-    {
       key: '/dashboard/users',
-      icon: <MdSupervisorAccount />,
+      icon: <MdManageAccounts />,
       label: 'Users',
+    },
+    // {
+    //   key: '/dashboard/vendors',
+    //   icon: <MdCorporateFare />,
+    //   label: 'Vendors',
+    // },
+    {
+      key: '/dashboard/cars',
+      icon: <MdSupervisorAccount />,
+      label: 'Cars',
     },
     {
       key: '/dashboard/orders',

@@ -34,16 +34,16 @@ const router = createBrowserRouter([
                 lazy: () => import('@/pages/dashboard/summary')
               },
               {
-                path: 'admins',
-                lazy: () => import('@/pages/dashboard/admins'),
-              },
-              {
-                path: 'vendors',
-                lazy: () => import('@/pages/dashboard/vendors'),
-              },
-              {
                 path: 'users',
                 lazy: () => import('@/pages/dashboard/users'),
+              },
+              // {
+              //   path: 'vendors',
+              //   lazy: () => import('@/pages/dashboard/vendors'),
+              // },
+              {
+                path: 'cars',
+                lazy: () => import('@/pages/dashboard/cars'),
               },
               {
                 path: 'orders',
@@ -52,10 +52,7 @@ const router = createBrowserRouter([
                     index: true,
                     lazy: () => import('@/pages/dashboard/orders'),
                   },
-                  {
-                    path: ':id',
-                    lazy: () => import('@/pages/dashboard/orders/detail'),
-                  }
+
                 ]
               },
               {
