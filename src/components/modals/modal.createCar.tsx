@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Modal,
   Form,
@@ -9,116 +9,115 @@ import {
   Upload,
   Dropdown,
   Space,
-} from 'antd';
-import { useAuth } from '@/hooks';
-import { useSearchParams } from 'react-router-dom';
-import qs from 'qs';
-import { UploadOutlined, UserOutlined, DownOutlined } from '@ant-design/icons';
-import axios from 'axios';
-import dayjs from 'dayjs';
-import { MenuProps } from 'antd/lib';
+} from "antd";
+import { useAuth } from "@/hooks";
+import { useSearchParams } from "react-router-dom";
+import qs from "qs";
+import { UploadOutlined, UserOutlined, DownOutlined } from "@ant-design/icons";
+import axios from "axios";
+import dayjs from "dayjs";
+import { MenuProps } from "antd/lib";
 
 type DataType = {
   name: string;
   price: string;
   startRent: string;
   finishRent: string;
-  image_url: File;
+  image_url: File[];
   capacity: string;
   availability: string;
 };
 
-const items: MenuProps['items'] = [
+interface CreateCarProps {
+  visible: boolean;
+  onCancel: () => void;
+  token: string | null;
+  id: number | null;
+}
+
+const items: MenuProps["items"] = [
   {
-    label: 'true',
-    key: 'true',
+    label: "true",
+    key: "true",
     icon: <UserOutlined />,
   },
   {
-    label: 'false',
-    key: 'false',
+    label: "false",
+    key: "false",
     icon: <UserOutlined />,
   },
 ];
 
-const itemsCapacity: MenuProps['items'] = [
+const itemsCapacity: MenuProps["items"] = [
   {
-    label: '2',
-    key: '2',
+    label: "2",
+    key: "2",
     icon: <UserOutlined />,
   },
   {
-    label: '4',
-    key: '4',
+    label: "4",
+    key: "4",
     icon: <UserOutlined />,
   },
   {
-    label: '6',
-    key: '6',
+    label: "6",
+    key: "6",
     icon: <UserOutlined />,
   },
 ];
 
-const CreateCar = () => {
+const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
   const { token } = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const params = qs.parse(searchParams.toString());
-  const [availability, setAvailability] = useState<string>('true');
-  const [capacity, setCapacity] = useState<string>('');
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const [availability, setAvailability] = useState<string>("true");
+  const [capacity, setCapacity] = useState<string>("2");
 
   const onFinish = async (values: DataType) => {
     const startRent = values.startRent
       ? dayjs(values.startRent).toISOString()
-      : '';
+      : "";
     const finishRent = values.finishRent
       ? dayjs(values.finishRent).toISOString()
-      : '';
+      : "";
 
     const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('price', values.price);
-    formData.append('capacity', values.capacity);
-    formData.append('availability', availability);
-    formData.append('startRent', startRent);
-    formData.append('finishRent', finishRent);
+    formData.append("name", values.name);
+    formData.append("price", values.price);
+    formData.append("capacity", capacity);
+    formData.append("availability", availability);
+    formData.append("startRent", startRent);
+    formData.append("finishRent", finishRent);
 
-    if (values.image_url && values.image_url.file) {
-      formData.append('image_url', values.image_url.file);
+    if (values.image_url && values.image_url.length > 0) {
+      const file = values.image_url[0] as any;
+      formData.append("image_url", file.originFileObj);
     } else {
-      message.error('Image is required');
+      message.error("Image is required");
       return;
     }
 
     try {
-      await axios.post('http://localhost:3000/cars', formData, {
+      await axios.post("http://localhost:3000/cars", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
         params,
       });
 
-      message.success('Car added successfully.');
+      message.success("Car added successfully.");
       window.location.reload();
     } catch (error) {
-      message.error('An error occurred while adding the car.');
+      message.error("An error occurred while adding the car.");
     }
   };
 
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
+  const handleMenuClick: MenuProps["onClick"] = (e) => {
     setAvailability(e.key);
   };
 
-  const handleCapacityClick: MenuProps['onClick'] = (e) => {
+  const handleCapacityClick: MenuProps["onClick"] = (e) => {
     setCapacity(e.key);
   };
 
@@ -126,6 +125,7 @@ const CreateCar = () => {
     items,
     onClick: handleMenuClick,
   };
+
   const menuPropsCapacity = {
     items: itemsCapacity,
     onClick: handleCapacityClick,
@@ -133,39 +133,31 @@ const CreateCar = () => {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        Add Car
-      </Button>
       <Modal
-        title="Add Car"
-        visible={isModalOpen}
-        onCancel={handleCancel}
+        title="Update Car"
+        visible={visible}
+        onCancel={onCancel}
         footer={null}
       >
         <Form onFinish={onFinish}>
-          <h1 className="font-semibold text-xl pb-5">Add Car</h1>
           <Form.Item
             label="Name"
             name="name"
-            rules={[{ required: true, message: 'Please enter the car name' }]}
+            rules={[{ required: true, message: "Input car name" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Price"
             name="price"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter the car price',
-              },
-            ]}
+            rules={[{ required: false, message: "Please enter a price" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Capacity"
             name="capacity"
+            rules={[{ required: false, message: "Please enter a capacity" }]}
           >
             <Dropdown menu={menuPropsCapacity}>
               <Button>
@@ -176,7 +168,11 @@ const CreateCar = () => {
               </Button>
             </Dropdown>
           </Form.Item>
-          <Form.Item label="Availability" name="availability">
+          <Form.Item
+            label="Availability"
+            name="availability"
+            rules={[{ required: false, message: "Enter a availability" }]}
+          >
             <Dropdown menu={menuProps}>
               <Button>
                 <Space>
@@ -186,21 +182,26 @@ const CreateCar = () => {
               </Button>
             </Dropdown>
           </Form.Item>
-          <Form.Item label="Start Rent" name="startRent">
+          <Form.Item
+            label="Start Rent"
+            name="startRent"
+            rules={[{ required: false, message: "Enter a start rental" }]}
+          >
             <DatePicker showTime />
           </Form.Item>
-          <Form.Item label="Finish Rent" name="finishRent">
+          <Form.Item
+            label="Finish Rent"
+            name="finishRent"
+            rules={[{ required: false, message: "Enter a finish rental" }]}
+          >
             <DatePicker showTime />
           </Form.Item>
           <Form.Item
             label="Image"
             name="image_url"
-            rules={[
-              {
-                required: true,
-                message: 'Please upload an image of the car',
-              },
-            ]}
+            valuePropName="fileList"
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+            rules={[{ required: false, message: "Upload image car" }]}
           >
             <Upload
               name="image_url"
