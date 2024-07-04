@@ -1,9 +1,3 @@
-# E3D - Backoffice
-
-## Description
-
-Admin for manage ordering from e3d
-
 ## Dependencies
 
 - Vite: https://vitejs.dev/

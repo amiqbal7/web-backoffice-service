@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Modal, Button, message, Form, Input, DatePicker, Upload, Dropdown, Space, MenuProps } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -35,49 +35,9 @@ type DataType = {
 
 const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
   const [form] = Form.useForm();
-  const [initialValues, setInitialValues] = useState<DataType | undefined>(undefined);
+  // const [initialValues, setInitialValues] = useState<DataType | undefined>(undefined);
   const [availability, setAvailability] = useState<string>('true');
 
-  useEffect(() => {
-    if (id) {
-      const fetchCarData = async () => {
-        try {
-          const response = await axios.get(`http://localhost:3000/cars/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          const carData = response.data;
-
-          // Set initial values from the fetched data
-          setInitialValues({
-            name: carData.name,
-            price: carData.price,
-            availability: carData.availability,
-            startRent: carData.startRent ? dayjs(carData.startRent) : null,
-            finishRent: carData.finishRent ? dayjs(carData.finishRent) : null,
-            image_url: carData.image_url ? [{ url: carData.image_url, name: 'Car Image' }] : [],
-          });
-
-
-
-          // Set form values
-          form.setFieldsValue({
-            name: carData.name,
-            price: carData.price,
-            startRent: carData.startRent ? dayjs(carData.startRent) : undefined,
-            finishRent: carData.finishRent ? dayjs(carData.finishRent) : undefined,
-            image_url: carData.image_url ? [{ url: carData.image_url, name: 'Car Image' }] : [],
-          });
-        } catch (error) {
-          message.error('Failed to fetch car data');
-        }
-      };
-
-      fetchCarData();
-    }
-  }, [id, token, form]);
 
   const onFinish = async (values: DataType) => {
     const startRent = dayjs(values.startRent).toISOString();
@@ -100,7 +60,7 @@ const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
     }
 
     try {
-      await axios.put(`http://localhost:3000/cars/${id}`, formData, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/cars/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -131,8 +91,7 @@ const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
       onCancel={onCancel}
       footer={null}
     >
-      {initialValues && (
-        <Form form={form} onFinish={onFinish} initialValues={initialValues}>
+        <Form form={form} onFinish={onFinish} layout='vertical'>
           <Form.Item
             label="Name"
             name="name"
@@ -155,13 +114,6 @@ const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
             <Input />
           </Form.Item>
           <Form.Item
-            label="Start Rent"
-            name="startRent"
-            rules={[{ required: false, message: 'Enter a start rental' }]}
-          >
-            <DatePicker showTime />
-          </Form.Item>
-          <Form.Item
             label="Availability"
             name="availability"
             rules={[{ required: false, message: 'Enter a availability' }]}
@@ -176,11 +128,19 @@ const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
             </Dropdown>
           </Form.Item>
           <Form.Item
+            label="Start Rent"
+            name="startRent"
+            rules={[{ required: false, message: 'Enter a start rental' }]}
+          >
+            <DatePicker showTime className='w-full' />
+          </Form.Item>
+
+          <Form.Item
             label="Finish Rent"
             name="finishRent"
             rules={[{ required: false, message: 'Enter a finish rental' }]}
           >
-            <DatePicker showTime />
+            <DatePicker showTime className='w-full' />
           </Form.Item>
           <Form.Item
             label="Image"
@@ -199,12 +159,11 @@ const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
             </Upload>
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary">
+            <Button htmlType="submit" type="primary" className='w-full'>
               Submit
             </Button>
           </Form.Item>
         </Form>
-      )}
     </Modal>
   );
 };

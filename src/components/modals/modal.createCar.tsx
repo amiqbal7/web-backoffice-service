@@ -98,7 +98,7 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
     }
 
     try {
-      await axios.post("http://localhost:3000/cars", formData, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/cars`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -134,12 +134,12 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
   return (
     <div>
       <Modal
-        title="Update Car"
+        title="Add Car"
         visible={visible}
         onCancel={onCancel}
         footer={null}
       >
-        <Form onFinish={onFinish}>
+        <Form onFinish={onFinish} layout="vertical">
           <Form.Item
             label="Name"
             name="name"
@@ -150,58 +150,61 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: false, message: "Please enter a price" }]}
+            rules={[{ required: true, message: "Please enter a price" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Capacity"
-            name="capacity"
-            rules={[{ required: false, message: "Please enter a capacity" }]}
-          >
-            <Dropdown menu={menuPropsCapacity}>
-              <Button>
-                <Space>
-                  {capacity}
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
-          </Form.Item>
-          <Form.Item
-            label="Availability"
-            name="availability"
-            rules={[{ required: false, message: "Enter a availability" }]}
-          >
-            <Dropdown menu={menuProps}>
-              <Button>
-                <Space>
-                  {availability}
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
-          </Form.Item>
+          <div className="flex gap-4">
+            <Form.Item
+              label="Capacity"
+              name="capacity"
+              rules={[{ required: true, message: "Please enter a capacity" }]}
+            >
+              <Dropdown menu={menuPropsCapacity}>
+                <Button>
+                  <Space>
+                    {capacity}
+                    <DownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
+            </Form.Item>
+            <Form.Item
+              label="Availability"
+              name="availability"
+              rules={[{ required: true, message: "Enter a availability" }]}
+            >
+              <Dropdown menu={menuProps}>
+                <Button>
+                  <Space>
+                    {availability}
+                    <DownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
+            </Form.Item>
+          </div>
+
           <Form.Item
             label="Start Rent"
             name="startRent"
-            rules={[{ required: false, message: "Enter a start rental" }]}
+            rules={[{ required: true, message: "Enter a start rental" }]}
           >
-            <DatePicker showTime />
+            <DatePicker showTime  className="w-full"/>
           </Form.Item>
           <Form.Item
             label="Finish Rent"
             name="finishRent"
-            rules={[{ required: false, message: "Enter a finish rental" }]}
+            rules={[{ required: true, message: "Enter a finish rental" }]}
           >
-            <DatePicker showTime />
+            <DatePicker showTime  className="w-full"/>
           </Form.Item>
           <Form.Item
             label="Image"
             name="image_url"
             valuePropName="fileList"
             getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
-            rules={[{ required: false, message: "Upload image car" }]}
+            rules={[{ required: true, message: "Upload image car" }]}
           >
             <Upload
               name="image_url"
@@ -213,7 +216,7 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
             </Upload>
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary">
+            <Button htmlType="submit" type="primary" className="w-full">
               Submit
             </Button>
           </Form.Item>

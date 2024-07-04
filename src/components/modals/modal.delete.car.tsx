@@ -23,7 +23,7 @@ const DeleteCar: React.FC<DeleteCarProps> = ({
     }
 
     try {
-      await axios.delete(`http://localhost:3000/cars/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cars/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
