@@ -55,8 +55,12 @@ const EditCar: React.FC<EditCarProps> = ({ visible, onCancel, token, id }) => {
     formData.append('startRent', startRent);
     formData.append('finishRent', finishRent);
 
-    if (values.image_url && values.image_url.length > 0 && values.image_url[0].originFileObj) {
-      formData.append('image_url', values.image_url[0].originFileObj);
+    if (values.image_url && values.image_url.length > 0) {
+      const file = values.image_url[0] as any;
+      formData.append("image_url", file.originFileObj);
+    } else {
+      message.error("Image is required");
+      return;
     }
 
     try {

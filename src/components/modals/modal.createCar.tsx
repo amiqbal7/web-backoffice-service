@@ -134,12 +134,12 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
   return (
     <div>
       <Modal
-        title="Add Car"
+        title="Update Car"
         visible={visible}
         onCancel={onCancel}
         footer={null}
       >
-        <Form onFinish={onFinish} layout="vertical">
+        <Form onFinish={onFinish}>
           <Form.Item
             label="Name"
             name="name"
@@ -154,11 +154,11 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
           >
             <Input />
           </Form.Item>
-          <div className="flex gap-4">
+          <div className="flex gap-5">
             <Form.Item
               label="Capacity"
               name="capacity"
-              rules={[{ required: true, message: "Please enter a capacity" }]}
+              rules={[{ required: false, message: "Please enter a capacity" }]}
             >
               <Dropdown menu={menuPropsCapacity}>
                 <Button>
@@ -172,7 +172,7 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
             <Form.Item
               label="Availability"
               name="availability"
-              rules={[{ required: true, message: "Enter a availability" }]}
+              rules={[{ required: false, message: "Enter a availability" }]}
             >
               <Dropdown menu={menuProps}>
                 <Button>
@@ -190,14 +190,14 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
             name="startRent"
             rules={[{ required: true, message: "Enter a start rental" }]}
           >
-            <DatePicker showTime  className="w-full"/>
+            <DatePicker showTime />
           </Form.Item>
           <Form.Item
             label="Finish Rent"
             name="finishRent"
             rules={[{ required: true, message: "Enter a finish rental" }]}
           >
-            <DatePicker showTime  className="w-full"/>
+            <DatePicker showTime />
           </Form.Item>
           <Form.Item
             label="Image"
@@ -216,7 +216,7 @@ const CreateCar: React.FC<CreateCarProps> = ({ visible, onCancel }) => {
             </Upload>
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary" className="w-full">
+            <Button htmlType="submit" type="primary">
               Submit
             </Button>
           </Form.Item>

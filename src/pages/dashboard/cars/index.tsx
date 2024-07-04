@@ -27,8 +27,6 @@ type DataType = {
   })[];
 };
 
-const { Meta } = Card;
-
 export function Component() {
   const { token } = useAuth();
   const [searchParams] = useSearchParams();
